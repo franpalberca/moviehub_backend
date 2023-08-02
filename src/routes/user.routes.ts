@@ -3,14 +3,11 @@ import {createUser, deleteUserById, getUserById, getAllUsers, updateUserName} fr
 
 const UserRouter = Router();
 
-UserRouter
-    .get('/', getAllUsers) //Declaration of routes with corresponding method for each one
-	.get('/', getUserById)
-
+UserRouter //Declaration of routes with corresponding method for each one
 	.post('/', createUser)
-
+    .get('/', getAllUsers) 
+	.get('/:userId', getUserById)
 	.put('/:userId', updateUserName)
-
 	.delete('/:userId', deleteUserById);
 
 export default UserRouter;

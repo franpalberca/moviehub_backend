@@ -1,12 +1,12 @@
 import { Router } from "express";
-import { createMovie, getAllMovies, removeMovieByID } from "../controllers/movies.controller";
+import { createMovie, getAllMovies, removeMovieById } from "../controllers/movies.controller";
 
 const MoviesRouter = Router()
 
 MoviesRouter
-    .post('/:userID', createMovie)
+    .post('/:userId', createMovie)
     .get('/', getAllMovies)
-    .delete('/:ID', removeMovieByID)
+    .delete('/:movieId', removeMovieById)
 
 
 export default MoviesRouter
