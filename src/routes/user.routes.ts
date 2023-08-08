@@ -3,7 +3,7 @@ import {createUser, deleteUserById, getUserById, getAllUsers, updateUserName} fr
 
 const UserRouter = Router();
 
-UserRouter //Declaration of routes with corresponding method for each one
+UserRouter
 	.post('/', createUser)
     .get('/', getAllUsers) 
 	.get('/:userId', getUserById)

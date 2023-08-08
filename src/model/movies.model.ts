@@ -1,18 +1,27 @@
-import { Document, model, Schema } from "mongoose";
+import {Document, model, Schema} from 'mongoose';
 
 interface IMoviesDocument extends Document {
-    name: string,
-    createdAt: Date,
-    updatedAt: Date
+	name: string;
+	picture: string;
+	createdAt: Date;
+	updatedAt: Date;
 }
 
-const MoviesSchema = new Schema<IMoviesDocument>({
-    name: {
-        type: String,
-        required: [true, 'Name is required']
-    }
-}, {timestamps: true, versionKey: false})
+const MoviesSchema = new Schema<IMoviesDocument>(
+	{
+		name: {
+			type: String,
+			required: [true, 'Name is required'],
+		},
+		picture: {
+            type: String,
+            required: [true, 'Picture is required']
 
-const MoviesModel = model<IMoviesDocument>('Movies', MoviesSchema)
+	},
+},
+	{timestamps: true, versionKey: false}
+);
 
-export default MoviesModel
+const MoviesModel = model<IMoviesDocument>('Movies', MoviesSchema);
+
+export default MoviesModel;

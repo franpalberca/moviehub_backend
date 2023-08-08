@@ -3,13 +3,14 @@ import MoviesModel from '../model/movies.model'
 import userModel from '../model/user.model';
 
 export const createMovie = async (req: Request, res: Response) => {
-    const {name} =req.body
+    const {name, picture} = req.body
     const {userId} = req.params
 
     console.log(userId)
     try {
         const newMovie = await MoviesModel.create({
-            name
+            name,
+            picture
         })
         await userModel.findByIdAndUpdate({_id: userId}, {
             $push: {movies: newMovie._id}

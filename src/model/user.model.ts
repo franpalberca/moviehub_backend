@@ -1,3 +1,4 @@
+import {Response, Request} from 'express';
 import {Document, model, Schema} from 'mongoose';
 import bcrypt from 'bcrypt';
 
@@ -19,6 +20,7 @@ const UserSchema = new Schema<IUserDocument>(
 		email: {
 			type: String,
 			required: [true, 'Email is required'],
+			unique: true,
 		},
 		password: {
 			type: String,
@@ -31,7 +33,7 @@ const UserSchema = new Schema<IUserDocument>(
 	{timestamps: true, versionKey: false}
 );
 
-UserSchema.pre('save', async function(next){
+UserSchema.pre('save', async function (next) {
 	const user = this;
 	if (!user.isModified('password')) return next();
 
@@ -39,12 +41,33 @@ UserSchema.pre('save', async function(next){
 	const hash = await bcrypt.hash(user.password, salt);
 	user.password = hash;
 
-	next()
-})
+	next();
+});
 
-// UserSchema.methods.comparePassword = async function (password: string):Promise<boolean> {
-// 	return await bcrypt.compare(password, this.password);
-// }
+UserSchema.methods.comparePassword = async function (password: string):Promise<boolean> {
+	return await bcrypt.compare(password, this.password);
+}
+
+export const authenticateUser = async (req: Request, res: Response) => {
+	const {email, password} = req.query;
+
+	try {
+		const foundUser = await UserModel.findOne({email});
+
+		if (foundUser) {
+			const isPasswordCorrect = await bcrypt.compare(password, foundUser.password);
+			if (isPasswordCorrect) {
+				res.json({isAuthenticated: true});
+			} else {
+				res.json({isAuthenticated: false});
+			}
+		} else {
+			res.json({isAuthenticated: false});
+		}
+	} catch (error) {
+		res.status(500).json(error);
+	}
+};
 
 const UserModel = model<IUserDocument>('User', UserSchema);
 
