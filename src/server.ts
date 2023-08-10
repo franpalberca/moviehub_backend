@@ -1,9 +1,10 @@
 import express, { Express } from "express";
 import morgan from 'morgan';
 import cors from 'cors';
-import UserRouter from './routes/user.routes';
 import MoviesRouter from "./routes/movies.routes";
+import UserRouter from "./routes/user.routes";
 import GenreRouter from "./routes/genre.routes";
+
 
 const app: Express = express();
 const corsOptions = {

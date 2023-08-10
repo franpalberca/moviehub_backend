@@ -5,7 +5,7 @@ const UserRouter = Router();
 
 UserRouter
 	.post('/', createUser)
-    .get('/', getAllUsers) 
+    .get('/', getAllUsers)
 	.get('/:userId', getUserById)
 	.put('/:userId', updateUserName)
 	.delete('/:userId', deleteUserById);
