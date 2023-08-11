@@ -1,23 +1,18 @@
 import express, { Express } from "express";
 import morgan from 'morgan';
 import cors from 'cors';
-import MoviesRouter from "./routes/movies.routes";
-import UserRouter from "./routes/user.routes";
-import GenreRouter from "./routes/genre.routes";
+import RequestRouter from "./routes/request.routes";
 
+const APP_ORIGIN = process.env.APP_ORIGIN || 'http://localhost:5173'
 
 const app: Express = express();
 const corsOptions = {
-    origin: 'http://localhost:5173'
+    origin: APP_ORIGIN,
 };
 
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(morgan("dev"));
-
-
-app.use("/movies", MoviesRouter);
-app.use("/users", UserRouter);
-app.use("/genres", GenreRouter)
+app.use("/api", RequestRouter)
 
 export default app;

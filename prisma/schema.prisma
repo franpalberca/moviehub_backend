@@ -16,6 +16,7 @@ model Users {
   email       String   @unique
   password    String
   movies      Movies[]
+  moviesArray String[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
@@ -26,9 +27,10 @@ model Movies {
   year        Int
   score       Int
   genres      Genres[]
+  genresArray String[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  users       Users?   @relation(fields: [usersId], references: [id], onDelete: Cascade)
+  Users       Users?   @relation(fields: [usersId], references: [id])
   usersId     String?  @db.ObjectId
 }
 
@@ -37,6 +39,6 @@ model Genres {
   genre     String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  movies    Movies?  @relation(fields: [moviesId], references: [id])
+  Movies    Movies?  @relation(fields: [moviesId], references: [id])
   moviesId  String?  @db.ObjectId
 }

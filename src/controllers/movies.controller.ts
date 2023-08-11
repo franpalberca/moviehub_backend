@@ -4,7 +4,6 @@ import prisma from '../db/clientPrisma';
 export const createMovie = async (req: Request, res: Response): Promise<Response> => {
 	const {title, year, score, genres} = req.body;
 	const {userID} = req.params;
-
 	try {
 		const genreIDs: string[] = [];
 
@@ -15,9 +14,9 @@ export const createMovie = async (req: Request, res: Response): Promise<Response
 				genre = await prisma.genres.create({data: {genre: genreName}});
 			}
 			if (genre) {
-			genreIDs.push(genre.id);
+				genreIDs.push(genre.id);
+			}
 		}
-	}
 
 		const newMovie = await prisma.movies.create({
 			data: {
@@ -27,7 +26,7 @@ export const createMovie = async (req: Request, res: Response): Promise<Response
 				genres: {
 					connect: genreIDs.map((genreID: string) => ({id: genreID})),
 				},
-				users: {
+				Users: {
 					connect: {
 						id: userID,
 					},
@@ -36,7 +35,7 @@ export const createMovie = async (req: Request, res: Response): Promise<Response
 			},
 			include: {
 				genres: true,
-				users: true,
+				Users: true,
 			},
 		});
 		await prisma.users.update({
