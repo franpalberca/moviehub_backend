@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createMovie, deleteUserById, getAllMovies, getAllUsers, getMovieByID, getUserById, removeMovieById, updateMovieByID, updateUserName } from "../../controllers";
+import { createMovie, deleteUserById, getAllMovies, getAllUsers, getMovieByID, getUserById, removeMovieByID, updateMovieByID, updateUserName } from "../../controllers";
 
 
 const privateRouter = Router()
@@ -9,7 +9,7 @@ privateRouter
     .put('/movies/:movieID', updateMovieByID)
     .get('/movies', getAllMovies)
     .get('/movies/:movieID', getMovieByID)
-    .delete('/movies/:movieID', removeMovieById)
+    .delete('/movies/:movieID', removeMovieByID)
 
     .get('/users', getAllUsers)
 	.get('/users/:userId', getUserById)

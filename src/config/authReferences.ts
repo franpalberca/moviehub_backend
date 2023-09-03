@@ -1,0 +1,3 @@
+export const APP_ORIGIN = 'APP_ORIGIN';
+export const AUTH0_AUDIENCE = 'AUTH0_AUDIENCE';
+export const AUTH0_ISSUER = 'AUTH0_ISSUER';

@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 
-export const check = (req: Request, res: Response, next: NextFunction) => {
+export const checkMinimumCharacters = (req: Request, res: Response, next: NextFunction) => {
     console.log('check middleware');
     const {name} = req.body;
 

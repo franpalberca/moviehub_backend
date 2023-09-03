@@ -9,6 +9,7 @@ type TConfig = {
 type EnvironmentConfig = {
 	app: AppConfig;
 	auth0: Auth0Config;
+	cloudinary: CloudinaryConfig;
 };
 
 type AppConfig = {
@@ -20,6 +21,12 @@ type Auth0Config = {
 	audience: string | undefined;
 	issuer: string | undefined;
 }
+
+type CloudinaryConfig = {
+	cloudinary_name: string | undefined;
+	cloudinary_api_key: string | undefined;
+	cloudinary_api_secret: string | undefined;
+};
 
 if(process.env.NODE_ENV === 'production'){
     dotenv.config({path: '.env.production'});
@@ -38,6 +45,12 @@ const CONFIG: TConfig = {
 			client_origin: process.env.APP_ORIGIN,
 			audience: process.env.AUTH0_AUDIENCE,
 			issuer: process.env.AUTH0_ISSUER
+		},
+		cloudinary: {
+
+			cloudinary_name: process.env.CLOUDINARY_NAME,
+			cloudinary_api_key: process.env.CLOUDINARY_API_KEY,
+			cloudinary_api_secret: process.env.CLOUDINARY_API_SECRET
 		}
 	},
 	production: {
@@ -48,6 +61,12 @@ const CONFIG: TConfig = {
 			client_origin: process.env.APP_ORIGIN,
 			audience: process.env.AUTH0_AUDIENCE,
 			issuer: process.env.AUTH0_ISSUER
+		},
+		cloudinary: {
+
+			cloudinary_name: process.env.CLOUDINARY_NAME,
+			cloudinary_api_key: process.env.CLOUDINARY_API_KEY,
+			cloudinary_api_secret: process.env.CLOUDINARY_API_SECRET
 		}
 	},
 };
