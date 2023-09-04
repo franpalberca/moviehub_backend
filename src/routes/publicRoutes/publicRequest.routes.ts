@@ -2,9 +2,9 @@ import { Router } from "express";
 import { createGenre, createUser, deleteGenreByID, getAllGenres, getGenreByID, updateGenreByID } from "../../controllers";
 
 
-const publicRouter = Router()
+const publicRoutes = Router()
 
-publicRouter
+publicRoutes
     .post('/genres', createGenre)
     .get('/genres', getAllGenres)
     .put('/genres/:genreID', updateGenreByID)
@@ -12,4 +12,4 @@ publicRouter
     .delete('/genres/:genreID', deleteGenreByID)
     .post('/users', createUser)
 
-export default publicRouter
+export default publicRoutes

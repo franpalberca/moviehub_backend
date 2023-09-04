@@ -2,9 +2,9 @@ import { Router } from "express";
 import { createMovie, deleteUserById, getAllMovies, getAllUsers, getMovieByID, getUserById, removeMovieByID, updateMovieByID, updateUserName } from "../../controllers";
 
 
-const privateRouter = Router()
+const privateRoutes = Router()
 
-privateRouter
+privateRoutes
     .post('/movies/:userID', createMovie)
     .put('/movies/:movieID', updateMovieByID)
     .get('/movies', getAllMovies)
@@ -17,4 +17,4 @@ privateRouter
 	.delete('/users/:userId', deleteUserById);
 
 
-export default privateRouter
+export default privateRoutes
