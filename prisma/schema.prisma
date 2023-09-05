@@ -14,7 +14,8 @@ model Users {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   name        String
   email       String   @unique
-  password    String
+  nickname    String
+  picture     String
   movies      Movies[]
   moviesArray String[]
   createdAt   DateTime @default(now())
@@ -42,6 +43,6 @@ model Genres {
   genre     String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  Movies   Movies? @relation(fields: [moviesId], references: [id])
-  moviesId String? @db.ObjectId
+  Movies    Movies?  @relation(fields: [moviesId], references: [id])
+  moviesId  String?  @db.ObjectId
 }

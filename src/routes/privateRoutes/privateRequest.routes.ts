@@ -1,20 +1,15 @@
 import { Router } from "express";
-import { createMovie, deleteUserById, getAllMovies, getAllUsers, getMovieByID, getUserById, removeMovieByID, updateMovieByID, updateUserName } from "../../controllers";
+import { createMovie, getAllMovies, getMovieByID, removeMovieByID, updateMovieByID, } from "../../controllers";
+import { checkJwtMiddleware } from "../../middleware/checkjwt.middleware";
 
 
 const privateRoutes = Router()
 
 privateRoutes
-    .post('/movies/:userID', createMovie)
-    .put('/movies/:movieID', updateMovieByID)
-    .get('/movies', getAllMovies)
-    .get('/movies/:movieID', getMovieByID)
-    .delete('/movies/:movieID', removeMovieByID)
-
-    .get('/users', getAllUsers)
-	.get('/users/:userId', getUserById)
-	.put('/users/:userId', updateUserName)
-	.delete('/users/:userId', deleteUserById);
-
+    .post('/movies/:userID', checkJwtMiddleware, createMovie)
+    .put('/movies/:movieID', checkJwtMiddleware, updateMovieByID)
+    .get('/movies', checkJwtMiddleware, getAllMovies)
+    .get('/movies/:movieID', checkJwtMiddleware, getMovieByID)
+    .delete('/movies/:movieID', checkJwtMiddleware, removeMovieByID)
 
 export default privateRoutes

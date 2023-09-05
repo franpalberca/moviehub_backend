@@ -1,21 +1,20 @@
-import express, { Express } from "express";
+import express, {Express} from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
-import RequestRouter from "./routes/request.routes";
-import publicRoutes from "./routes/publicRoutes/publicRequest.routes";
+import publicRoutes from './routes/publicRoutes/publicRequest.routes';
+import privateRoutes from './routes/privateRoutes/privateRequest.routes';
 
-
-const APP_ORIGIN = process.env.APP_ORIGIN || 'http://localhost:5173'
+const APP_ORIGIN = process.env.APP_ORIGIN || 'http://localhost:5173';
 
 const app: Express = express();
 const corsOptions = {
-    origin: APP_ORIGIN,
+	origin: APP_ORIGIN,
 };
 
 app.use(cors(corsOptions));
 app.use(express.json());
-app.use(morgan("dev"));
-app.use("/api", RequestRouter)
-app.use("/genres", publicRoutes)
+app.use(morgan('dev'));
+app.use('/private', privateRoutes);
+app.use('/public', publicRoutes);
 
 export default app;
