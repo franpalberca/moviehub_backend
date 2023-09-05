@@ -8,7 +8,7 @@ const privateRoutes = Router()
 privateRoutes
     .post('/movies/:userID', checkJwtMiddleware, createMovie)
     .put('/movies/:movieID', checkJwtMiddleware, updateMovieByID)
-    .get('/movies', checkJwtMiddleware, getAllMovies)
+    .get('/movies/:userID', checkJwtMiddleware, getAllMovies)
     .get('/movies/:movieID', checkJwtMiddleware, getMovieByID)
     .delete('/movies/:movieID', checkJwtMiddleware, removeMovieByID)
 

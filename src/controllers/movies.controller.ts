@@ -10,17 +10,17 @@ export const createMovie = async (req: Request, res: Response): Promise<Response
 	const score = parseFloat(req.body.score as string);
 	const country = req.body.country as string;
 	const genres = Array.isArray(req.body.genres) ? req.body.genres : [req.body.genres];
-
+	console.log(req.files);
 	try {
 		const genreIDs: string[] = [];
 
 		for (const genreName of genres) {
-			let genre = await prisma.genres.findUnique({where: {id: genreName}});
+			let genreUnique = await prisma.genres.findFirst({where: {genre: genreName}});
 
-			if (!genre) {
-				genre = await prisma.genres.create({data: {genre: genreName}});
+			if (!genreUnique) {
+				genreUnique = await prisma.genres.create({data: {genre: genreName}});
 			}
-			genreIDs.push(genre.id);
+			genreIDs.push(genreUnique.id);
 		}
 		if (!req.files || !req.files.image) {
 			return res.status(400).json({error: 'Image is missing'});
@@ -41,7 +41,7 @@ export const createMovie = async (req: Request, res: Response): Promise<Response
 					},
 					Users: {
 						connect: {
-							email: userID,
+							id: userID,
 						},
 					},
 					imageUrl: upload.secure_url,
@@ -54,7 +54,7 @@ export const createMovie = async (req: Request, res: Response): Promise<Response
 				},
 			});
 			await prisma.users.update({
-				where: {email: userID},
+				where: {id: userID},
 				data: {
 					moviesArray: {push: newMovie.title},
 				},
@@ -64,6 +64,7 @@ export const createMovie = async (req: Request, res: Response): Promise<Response
 		}
 		return res.status(404).send('File not found');
 	} catch (error) {
+		console.log(error);
 		return res.status(500).send(error);
 	}
 };
@@ -88,14 +89,21 @@ export const getMovieByID = async (req: Request, res: Response): Promise<Respons
 };
 
 export const getAllMovies = async (req: Request, res: Response): Promise<Response> => {
+	console.log(req.params);
 	try {
-		const movies = await prisma.movies.findMany({
-			include: {
-				genres: true,
+		const movies = await prisma.users.findUnique({
+			where: {
+				id: req.params.userID,
 			},
+			include: {
+				movies: true,
+			},
+			// include: {
+			// 	genres: true,
+			// },
 		});
-
-		return res.status(200).send(movies);
+		console.log(movies);
+		return res.status(200).json(movies);
 	} catch (error) {
 		return res.status(500).send(error);
 	}

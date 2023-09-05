@@ -3,6 +3,7 @@ import morgan from 'morgan';
 import cors from 'cors';
 import publicRoutes from './routes/publicRoutes/publicRequest.routes';
 import privateRoutes from './routes/privateRoutes/privateRequest.routes';
+import fileUpload from 'express-fileupload';
 
 const APP_ORIGIN = process.env.APP_ORIGIN || 'http://localhost:5173';
 
@@ -10,6 +11,11 @@ const app: Express = express();
 const corsOptions = {
 	origin: APP_ORIGIN,
 };
+
+app.use(fileUpload({
+    useTempFiles: true,
+    tempFileDir: './temp'
+}))
 
 app.use(cors(corsOptions));
 app.use(express.json());

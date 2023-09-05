@@ -60,7 +60,7 @@ export const getUserById = async (req: Request, res: Response) => {
 	try {
 		const user = await prisma.users.findUnique({
 			where: {
-				id: userId,
+				email: userId,
 			},
 			include: {
 				movies: {
