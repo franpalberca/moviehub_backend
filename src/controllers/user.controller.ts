@@ -2,6 +2,7 @@ import {Request, Response} from 'express';
 import prisma from '../db/clientPrisma';
 
 export const createUser = async (req: Request, res: Response) => {
+	// console.log(req.body);
 	try {
 		const {nickname, email, name, picture} = req.body;
 
@@ -11,7 +12,7 @@ export const createUser = async (req: Request, res: Response) => {
 			},
 		});
 		if (user) {
-			return res.status(305).send('User already exists');
+			return res.status(305).send(user.id);
 		}
 		const newUser = await prisma.users.create({
 			data: {
@@ -21,8 +22,9 @@ export const createUser = async (req: Request, res: Response) => {
 				picture: picture,
 			},
 		});
-		res.status(201).send('User created');
+		res.status(201).send(newUser.id);
 	} catch (err) {
+		console.log(err);
 		res.status(500).send('Error creating user');
 	}
 };

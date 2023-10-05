@@ -28,6 +28,7 @@ model Movies {
   year        Int
   country     String
   score       Int
+  description String?
   genres      Genres[]
   genresArray String[]
   createdAt   DateTime @default(now())

@@ -9,6 +9,7 @@ export const createMovie = async (req: Request, res: Response): Promise<Response
 	const year = parseInt(req.body.year as string, 10);
 	const score = parseFloat(req.body.score as string);
 	const country = req.body.country as string;
+	const description = req.body.description as string;
 	const genres = Array.isArray(req.body.genres) ? req.body.genres : [req.body.genres];
 	console.log(req.files);
 	try {
@@ -36,12 +37,13 @@ export const createMovie = async (req: Request, res: Response): Promise<Response
 					year,
 					score,
 					country,
+					description,
 					genres: {
 						connect: genreIDs.map((genreID: string) => ({id: genreID})),
 					},
 					Users: {
 						connect: {
-							id: userID,
+							email: userID,
 						},
 					},
 					imageUrl: upload.secure_url,
@@ -54,7 +56,7 @@ export const createMovie = async (req: Request, res: Response): Promise<Response
 				},
 			});
 			await prisma.users.update({
-				where: {id: userID},
+				where: {email: userID},
 				data: {
 					moviesArray: {push: newMovie.title},
 				},
@@ -73,15 +75,19 @@ export const getMovieByID = async (req: Request, res: Response): Promise<Respons
 	const {movieID} = req.params;
 	try {
 		const movie = await prisma.movies.findUnique({
-			where: {id: movieID},
-			include: {genres: true},
+			where: {
+				id: movieID,
+			},
+			include: {
+				genres: true,
+			},
 		});
 
 		if (!movie) {
 			return res.status(404).send({msg: 'Movie not found'});
 		}
 
-		return res.status(200).send(movie);
+		return res.status(200).json(movie);
 	} catch (error) {
 		console.log(error);
 		return res.status(500).send(error);
@@ -93,7 +99,7 @@ export const getAllMovies = async (req: Request, res: Response): Promise<Respons
 	try {
 		const movies = await prisma.users.findUnique({
 			where: {
-				id: req.params.userID,
+				email: req.params.userID,
 			},
 			include: {
 				movies: true,
@@ -111,11 +117,15 @@ export const getAllMovies = async (req: Request, res: Response): Promise<Respons
 
 export const updateMovieByID = async (req: Request, res: Response): Promise<Response> => {
 	const {movieID} = req.params;
-	const {title, score, year, country, genres} = req.body;
+	let {title, year, country, description} = req.body;
+	console.log(req.body)
+	if (typeof title !== "string") title = title.toString();
+  if (typeof year !== "number") year = Number(year);
+   if (typeof country !== "string") country = country.toString();
 	try {
 		const movie = await prisma.movies.update({
 			where: {id: movieID},
-			data: {title, score, year, country, genres},
+			data: {title, year, country, description},
 		});
 
 		return res.status(200).send(movie);
